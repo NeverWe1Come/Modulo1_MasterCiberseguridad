@@ -9,13 +9,13 @@ key = "12345678901234567890123456789012"
 
 #Conversión de variables
 def variables_bytes():
-    #Convierto la frase a encriptar en bytes
+    #Convierto la frase a cifrar en bytes
     message_bytes = message.encode()
-    #Convierto la frase a encriptar en bytes
+    #Convierto la frase a cifrar en bytes
     key_bytes = key.encode()
     #Devuelvo las variables en un diccionario
     global diccionario
-    diccionario = {'mensaje_bytes':message_bytes,'clave_base64':key_bytes,'bloque':os.urandom(16)}
+    diccionario = {'mensaje_bytes':message_bytes,'clave_base64':key_bytes,'vector_inicializacion':os.urandom(16)}
 
 #Creación Cipher de froma global para usarlo en el resto de funciones
 def crear_ciphers(key_b64,iv):
@@ -25,9 +25,9 @@ def crear_ciphers(key_b64,iv):
     cipher_ECB = Cipher(algorithms.AES(key_b64), modes.ECB())
     diccionario_ciphers = {'cipher_OFB':cipher_OFB,'cipher_CFB':cipher_CFB,'cipher_ECB':cipher_ECB}
 
-#Función encripta el mensaje original
-def encriptar_CBC():
-    #Llamo a la variable cipher y encripto el mensaje
+#Función cifra el mensaje original
+def encriptar():
+    #Llamo a la variable cipher y cifro el mensaje
     encryptor_OFB = diccionario_ciphers['cipher_OFB'].encryptor()
     encryptor_CFB = diccionario_ciphers['cipher_CFB'].encryptor()
     encryptor_ECB = diccionario_ciphers['cipher_ECB'].encryptor()
@@ -37,8 +37,8 @@ def encriptar_CBC():
     diccionario_encryptor = {'ct1':ct1,'ct2':ct2,'ct3':ct3}
     return diccionario_encryptor
 
-#Función desencripta el emnsaje con la clave propio
-def desencriptar_CBD(diccionario_encryptor):
+#Función descifra el emnsaje con la clave propio
+def descifrar(diccionario_encryptor):
     print(diccionario_encryptor)
     # Llamo a la variable cipher y desencripto el mensaje.
     decryptor1_OFB = diccionario_ciphers['cipher_OFB'].decryptor()
@@ -55,6 +55,6 @@ def desencriptar_CBD(diccionario_encryptor):
 #Función main que llama a todos los métodos necesarios
 if __name__ == '__main__':
     variables_bytes()
-    crear_ciphers(diccionario['clave_base64'],diccionario['bloque'])
-    diccionario_mensajes_encriptados = encriptar_CBC()
-    desencriptar_CBD(diccionario_mensajes_encriptados)
+    crear_ciphers(diccionario['clave_base64'],diccionario['vector_inicializacion'])
+    diccionario_mensajes_encriptados = encriptar()
+    descifrar(diccionario_mensajes_encriptados)

@@ -6,7 +6,7 @@ import binascii
 hash_md5_fichero_original = '944a1e869969dd8a4b64ca5e6ebc209a'
 ruta_fichero1= './WinMD5.exe'
 ruta_fichero2= './WinMD5_2.exe'
-#Función main que llama a todos los métodos necesarios
+
 
 def calcular_MD5(ruta_fichero):
     #Abro el fichero solo de lectura r y binario b (Con ello obtenemos los bytes del fichero)
@@ -23,6 +23,7 @@ def calcular_MD5(ruta_fichero):
     print('El hash MD5 del fichero ' +ruta_fichero+ ' es: ' + hash_final)
     return hash_final
 
+#Función main que llama a todos los métodos necesarios
 if __name__ == '__main__':
     hash_fichero1 = calcular_MD5(ruta_fichero1)
     hash_fichero2 = calcular_MD5(ruta_fichero2)
